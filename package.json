@@ -1,0 +1,20 @@
+{
+  "name": "bichox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "webpack watch --mode=development --config webpack.config.js",
+    "prod": "webpack --mode=production --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "three": "^0.145.0"
+  }
+}
