@@ -8,7 +8,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-scene.background = new THREE.Color('rgb(5,5,5)')
+scene.background = new THREE.Color('rgb(200,200,200)')
 /**
  * Object
  */
@@ -40,27 +40,32 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.toneMapping = 0
 renderer.shadowMap.enabled = true
 renderer.physicallyCorrectLights = true
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
 /**
  *  Lights
  */
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 20);
 scene.add(directionalLight);
 
-const light = new THREE.AmbientLight(0xffffff, 3); // soft white light
+const light = new THREE.AmbientLight(0xffffff, 1); // soft white light
 scene.add(light);
 
 
 /**
  * 3D BICHO
  */
-
+let mixer 
 const bichox_loader = new GLTFLoader()
 
 bichox_loader.load('../static/bichox.glb', (glb) => {
     scene.add(glb.scene)
+    mixer = new THREE.AnimationMixer(glb.scene);
+    glb.animations.forEach((clip) => {
+        mixer.clipAction(clip).play();
+    });
 },
     function (xhr) {
 
@@ -88,6 +93,7 @@ var animate = () => {
 
     requestAnimationFrame(animate)
     controls.update(0.5)
+    mixer.update(0.0005)
     renderer.render(scene, camera)
 }
 
